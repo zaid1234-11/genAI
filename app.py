@@ -1,10 +1,19 @@
 import streamlit as st
-import json
-import requests # Make sure to add 'requests' to your requirements.txt
+import google.generativeai as genai
 
 # --- App Title and Description ---
 st.title("🤖 AI Social Media Post Generator")
 st.markdown("This app uses the Gemini API to generate high-quality social media posts. Fill in the details below to get started!")
+
+# --- Configure the API ---
+# The API key is stored in Streamlit's Secrets management.
+try:
+    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+    model = genai.GenerativeModel('gemini-1.5-flash')
+except Exception as e:
+    st.error(f"Error configuring the API. Have you set your GEMINI_API_KEY in Streamlit Secrets? Error: {e}")
+    st.stop()
+
 
 # --- User Inputs ---
 with st.form("post_form"):
@@ -33,46 +42,22 @@ if submitted:
         with st.spinner("🤖 AI is thinking... Please wait."):
             
             # --- GEMINI API PROMPT ---
-            # This prompt is designed for a powerful instruction-following model.
             prompt = f"""
 As an expert social media manager, create a post for the platform '{platform}' with a '{tone}' tone.
 The topic is: '{topic}'.
 Your response must include a creative caption and 3-5 relevant hashtags.
 """
 
-            # --- API CALL SETUP ---
-            # This section calls the external Gemini API
-            api_key = "" # This is handled automatically by the environment
-            api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
-            
-            headers = {'Content-Type': 'application/json'}
-            
-            data = {
-                "contents": [{
-                    "parts": [{
-                        "text": prompt
-                    }]
-                }]
-            }
-
             try:
                 # --- MAKING THE REQUEST ---
-                response = requests.post(api_url, headers=headers, data=json.dumps(data))
-                response.raise_for_status() # Raise an exception for bad status codes
-                
-                result = response.json()
+                response = model.generate_content(prompt)
                 
                 # --- EXTRACTING THE TEXT ---
-                # The structure of the response is navigated to get the generated text.
-                final_post = result['candidates'][0]['content']['parts'][0]['text'].strip()
+                final_post = response.text.strip()
 
                 st.subheader("✅ Here's Your Generated Post:")
                 st.markdown(f"> {final_post}")
 
-            except requests.exceptions.RequestException as e:
+            except Exception as e:
                 st.error(f"An API error occurred: {e}")
-            except (KeyError, IndexError) as e:
-                st.error(f"Could not parse the API response. Error: {e}")
-                st.write("Raw API Response:")
-                st.json(result) # Display the raw response for debugging
 
