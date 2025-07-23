@@ -6,14 +6,15 @@ import torch
 @st.cache_resource
 def load_model():
     """Loads the text generation model."""
-    # Using 'gpt2' for its instruction-following capabilities
-    return pipeline('text-generation', model='gpt2')
+    # --- UPGRADED MODEL ---
+    # Using a more capable model for better results.
+    return pipeline('text-generation', model='EleutherAI/gpt-neo-125M')
 
 generator = load_model()
 
 # --- App Title and Description ---
 st.title("🤖 AI Social Media Post Generator")
-st.markdown("This app uses the `gpt2` model to generate social media posts based on your inputs. Fill in the details below to get started!")
+st.markdown("This app uses the `GPT-Neo` model to generate social media posts based on your inputs. Fill in the details below to get started!")
 
 # --- User Inputs ---
 with st.form("post_form"):
@@ -41,37 +42,35 @@ if submitted:
     else:
         with st.spinner("🤖 AI is thinking... Please wait."):
             
-            # --- FINAL, MORE STRUCTURED PROMPT ---
-            # This format gives the model a very clear, structured instruction.
+            # --- SIMPLIFIED AND DIRECT PROMPT ---
+            # This clear format works best with models like GPT-Neo.
             prompt = f"""
-[INST]
-You are an expert social media manager. Your task is to write a post for the social media platform '{platform}'.
-The post must have a '{tone}' tone.
-The topic for the post is: '{topic}'.
-Generate a creative caption and include 3-5 relevant hashtags.
-[/INST]
+You are an expert social media manager.
+Write a social media post for the platform '{platform}' with a '{tone}' tone.
+The post should be about: '{topic}'.
+Include a creative caption and 3-5 relevant hashtags.
+
+Here is the post:
 """
             
             try:
                 # --- TUNED GENERATION PARAMETERS ---
-                # These settings balance creativity and focus.
                 generated_outputs = generator(
                     prompt,
                     max_new_tokens=150,
-                    temperature=0.7,
+                    do_sample=True,
+                    temperature=0.75,
                     top_k=50,
                     top_p=0.95,
-                    do_sample=True,
+                    no_repeat_ngram_size=2,
                     pad_token_id=generator.tokenizer.eos_token_id,
-                    no_repeat_ngram_size=3 # Prevents repeating longer phrases
+                    return_full_text=False # Ensures we only get the new text
                 )
                 
-                final_post = generated_outputs[0]['generated_text'].split("[/INST]")[1].strip()
+                final_post = generated_outputs[0]['generated_text'].strip()
 
                 st.subheader("✅ Here's Your Generated Post:")
                 st.markdown(f"> {final_post}")
 
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
-
