@@ -6,7 +6,7 @@ import torch
 @st.cache_resource
 def load_model():
     """Loads the text generation model."""
-    # Switched to 'gpt2' for better instruction-following capabilities
+    # Using 'gpt2' for its instruction-following capabilities
     return pipeline('text-generation', model='gpt2')
 
 generator = load_model()
@@ -41,34 +41,37 @@ if submitted:
     else:
         with st.spinner("🤖 AI is thinking... Please wait."):
             
-            # --- SIMPLIFIED AND MORE DIRECT PROMPT ---
-            # This prompt is easier for the model to understand and follow.
+            # --- FINAL, MORE STRUCTURED PROMPT ---
+            # This format gives the model a very clear, structured instruction.
             prompt = f"""
-You are an expert social media manager.
-Write a social media post for the platform '{platform}' with a '{tone}' tone.
-The post should be about: '{topic}'.
-Include a creative caption and 3-5 relevant hashtags.
-
-Post:
+[INST]
+You are an expert social media manager. Your task is to write a post for the social media platform '{platform}'.
+The post must have a '{tone}' tone.
+The topic for the post is: '{topic}'.
+Generate a creative caption and include 3-5 relevant hashtags.
+[/INST]
 """
             
             try:
-                # This version tells the model to only return the new text it generates.
+                # --- TUNED GENERATION PARAMETERS ---
+                # These settings balance creativity and focus.
                 generated_outputs = generator(
                     prompt,
-                    max_new_tokens=150,      # Generate up to 150 new words
-                    return_full_text=False,  # This is the key change!
+                    max_new_tokens=150,
+                    temperature=0.7,
+                    top_k=50,
+                    top_p=0.95,
+                    do_sample=True,
                     pad_token_id=generator.tokenizer.eos_token_id,
-                    num_beams=5,             # Helps generate more coherent text
-                    no_repeat_ngram_size=2   # Prevents repetitive phrases
+                    no_repeat_ngram_size=3 # Prevents repeating longer phrases
                 )
                 
-                # The output is now much cleaner, no splitting needed.
-                final_post = generated_outputs[0]['generated_text'].strip()
+                final_post = generated_outputs[0]['generated_text'].split("[/INST]")[1].strip()
 
                 st.subheader("✅ Here's Your Generated Post:")
                 st.markdown(f"> {final_post}")
 
             except Exception as e:
                 st.error(f"An error occurred: {e}")
+
 
