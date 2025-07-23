@@ -1,6 +1,6 @@
 # AI Social Media Post Generator 🤖
 
-This is a simple web application built with Streamlit that uses a text-generation AI model (`distilgpt2`) to create social media posts. You can specify a topic, a target platform, and a desired tone to generate a creative caption and relevant hashtags.
+This is a web application built with Streamlit that leverages the powerful Google Gemini API to generate high-quality, creative social media posts. You can specify a topic, a target platform, and a desired tone, and the AI will create a compelling post complete with a caption and relevant hashtags.
 
 ***
 
@@ -10,23 +10,23 @@ You can access the live, deployed version of the app here:
 
 **[https://your-app-name.streamlit.app/](https://your-app-name.streamlit.app/)**
 
-*(Replace the link above with your actual Streamlit Community Cloud URL)*
+*(Replace the link above with your actual Streamlit Community Cloud URL after deployment)*
 
 ***
 
 ## ✨ Features
 
-* Generate posts for multiple platforms (Instagram, Twitter, Facebook, LinkedIn).
-* Choose from various tones (Excited, Professional, Casual, Funny, Inspirational).
-* Leverages a one-shot prompting technique for structured and relevant output.
-* Simple, clean, and interactive user interface built with Streamlit.
+* **High-Quality Content:** Uses the Google Gemini API for creative and context-aware text generation.
+* **Customizable:** Generate posts for multiple platforms (Instagram, Twitter, Facebook, LinkedIn).
+* **Tone Selection:** Choose from various tones (Excited, Professional, Casual, Funny, Inspirational).
+* **Simple Interface:** Clean and interactive user interface built with Streamlit.
 
 ***
 
 ## 🛠️ Technologies Used
 
 * **Frontend:** Streamlit
-* **AI/ML:** Hugging Face Transformers (`distilgpt2`)
+* **AI/ML:** Google Gemini API (`gemini-1.5-flash`)
 * **Core Language:** Python
 
 ***
@@ -34,6 +34,20 @@ You can access the live, deployed version of the app here:
 ## 📦 Local Setup and Installation
 
 To run this project on your own machine, follow these steps:
+
+### 1. Configuration: Add Your API Key
+
+This application requires a Google Gemini API key to function.
+
+1.  **Get an API Key:** Obtain a free API key from **[Google AI Studio](https://aistudio.google.com/app/apikey)**.
+2.  **Create a Secrets File:** In your project folder, create a new folder named `.streamlit` and inside it, create a file named `secrets.toml`.
+3.  **Add Your Key:** Add the following line to your `secrets.toml` file, replacing `YOUR_API_KEY_HERE` with the key you just copied:
+    ```toml
+    GEMINI_API_KEY = "YOUR_API_KEY_HERE"
+    ```
+    *Note: When deploying to Streamlit Community Cloud, you will add this same line to the app's online "Secrets" manager instead of using a file.*
+
+### 2. Installation Steps
 
 1.  **Clone the repository:**
     ```bash
@@ -67,8 +81,9 @@ To run this project on your own machine, follow these steps:
 
 ## Usage
 
-1.  Open the [Live Demo](#-live-demo) link or run the app locally.
-2.  Enter the topic or idea for your post in the text box.
-3.  Select the social media platform from the dropdown menu.
-4.  Choose the desired tone for the post.
+1.  Open the app in your browser.
+2.  Enter the topic or idea for your post.
+3.  Select the social media platform.
+4.  Choose the desired tone.
 5.  Click the **"✨ Generate Post"** button and wait for the AI to generate the content.
+
