@@ -40,28 +40,17 @@ if submitted:
         st.error("Please enter a topic before generating.")
     else:
         with st.spinner("🤖 AI is thinking... Please wait."):
-            # The one-shot prompt from your notebook code
+            
+            # --- SIMPLIFIED AND MORE DIRECT PROMPT ---
+            # This prompt is easier for the model to understand and follow.
             prompt = f"""
-Generate a social media post by following the example format.
+You are an expert social media manager.
+Write a social media post for the platform '{platform}' with a '{tone}' tone.
+The post should be about: '{topic}'.
+Include a creative caption and 3-5 relevant hashtags.
 
----
-*EXAMPLE*
-*Platform:* Instagram
-*Topic:* A new bookstore cafe is opening.
-*Tone:* Cozy and inviting
-
-*Generated Post:*
-*Caption:* The day has finally come! ☕📚 We're so excited to announce the grand opening of 'The Reading Nook Cafe' this Saturday. Come find your next favorite book and enjoy a warm cup of coffee with us. We can't wait to welcome you to our cozy corner of the world!
-*Hashtags:* #BookstoreCafe #GrandOpening #CoffeeAndBooks #NewBeginnings #CozyVibes
----
-
-*YOUR TASK*
-*Platform:* {platform}
-*Topic:* {topic}
-*Tone:* {tone}
-
-*Generated Post:*
-*Caption:*"""
+Post:
+"""
             
             try:
                 # This version tells the model to only return the new text it generates.
@@ -69,7 +58,9 @@ Generate a social media post by following the example format.
                     prompt,
                     max_new_tokens=150,      # Generate up to 150 new words
                     return_full_text=False,  # This is the key change!
-                    pad_token_id=generator.tokenizer.eos_token_id
+                    pad_token_id=generator.tokenizer.eos_token_id,
+                    num_beams=5,             # Helps generate more coherent text
+                    no_repeat_ngram_size=2   # Prevents repetitive phrases
                 )
                 
                 # The output is now much cleaner, no splitting needed.
@@ -80,3 +71,4 @@ Generate a social media post by following the example format.
 
             except Exception as e:
                 st.error(f"An error occurred: {e}")
+
