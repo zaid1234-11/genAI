@@ -6,13 +6,14 @@ import torch
 @st.cache_resource
 def load_model():
     """Loads the text generation model."""
-    return pipeline('text-generation', model='distilgpt2')
+    # Switched to 'gpt2' for better instruction-following capabilities
+    return pipeline('text-generation', model='gpt2')
 
 generator = load_model()
 
 # --- App Title and Description ---
 st.title("🤖 AI Social Media Post Generator")
-st.markdown("This app uses the `distilgpt2` model to generate social media posts based on your inputs. Fill in the details below to get started!")
+st.markdown("This app uses the `gpt2` model to generate social media posts based on your inputs. Fill in the details below to get started!")
 
 # --- User Inputs ---
 with st.form("post_form"):
@@ -63,9 +64,7 @@ Generate a social media post by following the example format.
 *Caption:*"""
             
             try:
-                # --- CORRECTED MODEL CALL ---
-                # This version tells the model to only return the new text it generates,
-                # which is more reliable than splitting the text afterwards.
+                # This version tells the model to only return the new text it generates.
                 generated_outputs = generator(
                     prompt,
                     max_new_tokens=150,      # Generate up to 150 new words
