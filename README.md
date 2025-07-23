@@ -8,10 +8,7 @@ This is a web application built with Streamlit that leverages the powerful Googl
 
 You can access the live, deployed version of the app here:
 
-**[https://your-app-name.streamlit.app/](https://your-app-name.streamlit.app/)**
-
-*(Replace the link above with your actual Streamlit Community Cloud URL after deployment)*
-
+**[https://phhyzultzf785btglvxuu9.streamlit.app/](https://phhyzultzf785btglvxuu9.streamlit.app/)**
 ***
 
 ## ✨ Features
