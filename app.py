@@ -63,15 +63,18 @@ Generate a social media post by following the example format.
 *Caption:*"""
             
             try:
+                # --- CORRECTED MODEL CALL ---
+                # This version tells the model to only return the new text it generates,
+                # which is more reliable than splitting the text afterwards.
                 generated_outputs = generator(
                     prompt,
-                    max_length=300,
-                    num_return_sequences=1,
+                    max_new_tokens=150,      # Generate up to 150 new words
+                    return_full_text=False,  # This is the key change!
                     pad_token_id=generator.tokenizer.eos_token_id
                 )
                 
-                generated_text = generated_outputs[0]['generated_text']
-                final_post = generated_text.split("Generated Post:")[2].strip()
+                # The output is now much cleaner, no splitting needed.
+                final_post = generated_outputs[0]['generated_text'].strip()
 
                 st.subheader("✅ Here's Your Generated Post:")
                 st.markdown(f"> {final_post}")
