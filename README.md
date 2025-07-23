@@ -48,8 +48,10 @@ This application requires a Google Gemini API key to function.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
-    cd your-repository-name
+    git clone [[https://github.com/zaid1234-11/genAI.git](https://github.com/zaid1234-11/genAI.git)
+    cd genAI]([https://github.com/zaid1234-11/genAI.git](https://github.com/zaid1234-11/genAI.git)
+    cd genAI)
+    cd genAI
     ```
 
 2.  **Create and activate a virtual environment:**
