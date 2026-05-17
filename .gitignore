@@ -1,0 +1,36 @@
+# Next.js
+.next/
+out/
+build/
+*.rsc
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env.local
+.env.*.local
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+.pytest_cache
+__pycache__/
+
+# Vercel
+.vercel
