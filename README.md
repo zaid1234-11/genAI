@@ -28,21 +28,6 @@ Designed with simplicity and speed in mind, the app focuses on creating a clean 
 
 ![Mobile View](./screenshots/mobile.png)
 
-Create a folder named `screenshots` in the project root and add your images there.
-
-Example folder structure:
-
-```bash
-project/
-|
-+-- screenshots/
-|   +-- home.png
-|   +-- result.png
-|   +-- mobile.png
-```
-
----
-
 ## Features
 
 - AI-generated social media captions
