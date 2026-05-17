@@ -18,15 +18,23 @@ Designed with simplicity and speed in mind, the app focuses on creating a clean 
 
 ### Home Interface
 
-![Home UI](./screenshots/home.png)
+<p align="center">
+  <img src="./screenshots/home.png" alt="Home UI" width="720" />
+</p>
 
 ### Generated Caption
 
-![Generated Result](./screenshots/result.png)
+<p align="center">
+  <img src="./screenshots/result.png" alt="Generated Result" width="720" />
+</p>
 
 ### Mobile Responsive View
 
-![Mobile View](./screenshots/mobile.png)
+<p align="center">
+  <img src="./screenshots/mobile.png" alt="Mobile View" width="320" />
+</p>
+
+---
 
 ## Features
 
